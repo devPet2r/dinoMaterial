@@ -1,0 +1,466 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/theme/default.css">
+
+    <style>
+        .md-card {
+            width: 400px;
+            margin: 4px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .md-card-example {
+            .md-subhead {
+            .md-icon {
+                $size: 16px;
+
+                width: $size;
+                min-width: $size;
+                height: $size;
+                font-size: $size !important;
+            }
+
+            span {
+                vertical-align: middle;
+            }
+            }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+        <div class="page-container">
+            <md-app md-waterfall md-mode="fixed-last">
+              <md-app-toolbar class="md-large md-dense md-accent">
+                <div class="md-toolbar-row">
+                  <div class="md-toolbar-section-start">
+                    <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+                      <md-icon>menu</md-icon>
+                    </md-button>
+        
+                    <span class="md-title">My Title</span>
+                  </div>
+        
+                  <div class="md-toolbar-section-end">
+                    <md-button class="md-icon-button">
+                      <md-icon>more_vert</md-icon>
+                    </md-button>
+                  </div>
+                </div>
+        
+                <div class="md-toolbar-row">
+                  <md-tabs class="md-accent">
+                    <md-tab id="tab-home" md-label="Home"></md-tab>
+                    <md-tab id="tab-pages" md-label="Pages"></md-tab>
+                    <md-tab id="tab-posts" md-label="Posts"></md-tab>
+                    <md-tab id="tab-favorites" md-label="Favorites"></md-tab>
+                  </md-tabs>
+                </div>
+              </md-app-toolbar>
+        
+              <md-app-drawer :md-active.sync="menuVisible">
+                <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
+        
+                <md-list>
+                  <md-list-item>
+                    <md-icon>move_to_inbox</md-icon>
+                    <span class="md-list-item-text">Inbox</span>
+                  </md-list-item>
+        
+                  <md-list-item>
+                    <md-icon>send</md-icon>
+                    <span class="md-list-item-text">Sent Mail</span>
+                  </md-list-item>
+        
+                  <md-list-item>
+                    <md-icon>delete</md-icon>
+                    <span class="md-list-item-text">Trash</span>
+                  </md-list-item>
+        
+                  <md-list-item>
+                    <md-icon>error</md-icon>
+                    <span class="md-list-item-text">Spam</span>
+                  </md-list-item>
+                </md-list>
+              </md-app-drawer>
+        
+              <md-app-content>
+                <md-card v-for="(dino, index) in dinos" :key="index" >
+                    <md-ripple >
+                        <md-card-area>
+                        <md-card-media>
+                            <img :src="dino.image[0]" alt="People" @click="play(dino.sound_kr)">
+                        </md-card-media>
+                        
+                        <md-card-header>
+                            <div class="md-title">{{ dino.title_kr }}</div>
+                            <div class="md-subhead" @click="play(dino.sound_en)">{{ dino.title_en }}</div>
+                        </md-card-header>
+                
+                        <!-- <md-card-content>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                        </md-card-content> -->
+                        </md-card-area>
+                    </md-ripple>
+              
+                    <!-- <md-card-actions md-alignment="left">
+                      <md-button>Action</md-button>
+                      <md-button>Action</md-button>
+                    </md-card-actions> -->
+                  </md-card>
+              
+              </md-app-content>
+            </md-app>
+          </div>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-material@beta"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+      Vue.use(VueMaterial.default)
+
+      new Vue({
+        el: '#app',
+        data: {
+            menuVisible: false,
+            dinos: [
+            {
+                "id": 1,
+                "title_kr": "티라노사우르스",
+                "title_en": "tyrannosaurus",
+                "name_mean": "폭군 도마뱀 제왕",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_44684-bb9540eb4a9a737cbadecc35f5ca5419-1553346331228",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_3717-8cdc50b8e54a1c18a22e70fdca5fc18e-1553345958895",
+                "image": [
+                "http://img.khan.co.kr/news/2017/03/23/l_2017032401003324800281471.jpg",
+                "https://png.pngtree.com/element_origin_min_pic/17/03/13/8167cea9f27d447376f6341915ca6e72.jpg",
+                "https://w.namu.la/s/ea76ae4314b0be306b83bf0aa2159e4c48185f2820b0107000ad63fe65929b89d235bf3a2319e9eb60b50aa5cda65e64d650c31b91566ba66559f7e0effc4110db80b06cea44e7dd67e9f6cd228686e2bc59a3692295674b1f8615ae764bf801",
+                "http://newsimg.hankookilbo.com/2015/08/11/201508111645801787_1.jpg",
+                "https://w.namu.la/s/91218825be967cbb5e6a27c85baff43fb5d19dfb6825e8e013522fbd2922ec6fcae8efbc1e5ec955b90b7b86ea6bffc0356f514c7e754f6a2e77c13b55a0c3af2d849a4d68b7f0dc09b8d7b9c0b3c41450ec976bb772a58550828794999394db"
+                ],
+                "eat": "육식",
+                "width": "11~13m",
+                "height": "4~5m",
+                "speed": "시속 48km",
+                "weight": "6.7~9t",
+                "area": ["북아메리카", "미국 몬태나", "사우스다코타", "노쓰다코타", "알버타", "서스캣처원", "와이오밍", " 콜로라도", "텍사스", "뉴멕시코", "유타", "온타리오"],
+                "kind": "공룡"
+            },
+            {
+                "id": 2,
+                "title_kr": "트리케라톱스",
+                "title_en": "Triceratops",
+                "name_mean": "세 개의 뿔이 있는 얼굴",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_58322-261e773dfcc7fddd3f45c45aacc187f2-1553347474479",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_22393-b0726cced223e7f366894cb97c16e3ff-1553347446562",
+                "image": [
+                "data:image/jpeg;base64,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",
+                "https://cdn.clien.net/web/api/file/F01/4886983/51483e399ef844b1877.PNG",
+                "http://2.bp.blogspot.com/-pT6GLDG8VvY/VX6vRZUoxLI/AAAAAAAAAik/CJ02ROHCqJU/s1600/LA-Triceratops_mount-2.jpg"
+                ],
+                "eat": "초식",
+                "width": "10~10.5 미터",
+                "height": "3~4.5 미터",
+                "speed": "",
+                "weight": "7~10 톤",
+                "area": ["북아메리카 미국 노스다코타 주", "사우스다코타 주", "몬태나 주", "콜로라도 주", "캐나다 앨버타 주", "서스캐처원 주"],
+                "kind": "파충류"
+            },
+            {
+                "id": 3,
+                "title_kr": "이구아노돈",
+                "title_en": "Iguanodon",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_59109-6112b336a255ce4d899d6996f6f31c7b-1554009047219",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_58671-dca279e0ec7a7697bf333ad0bb1b3f10-1554009006363",
+                "image": [
+                "https://media.istockphoto.com/photos/iguanodon-dinosaur-photorealistic-representation-in-dynamic-pos-picture-id633686434?k=6&m=633686434&s=612x612&w=0&h=c6ughH4yuGHK2pE5TMDxo445qnS09B5Eekt3jE3GN_g=",
+                "https://previews.123rf.com/images/catmando/catmando1506/catmando150600036/41772779-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88-%EC%B4%88%EC%8B%9D-%EA%B3%B5%EB%A3%A1-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88%EC%9D%80-%EB%B0%B1%EC%95%85%EA%B8%B0-%EA%B8%B0%EA%B0%84-%EB%8F%99%EC%95%88-%EC%9C%A0%EB%9F%BD%EC%97%90%EC%84%9C-%EC%82%B4%EC%95%98%EB%8D%98-%EC%B4%88%EC%8B%9D-%EA%B3%B5%EB%A3%A1%EC%9D%B4%EC%97%88%EB%8B%A4-.jpg",
+                "https://previews.123rf.com/images/catmando/catmando1506/catmando150600009/41772663-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88-%EC%B8%A1%EB%A9%B4-%ED%94%84%EB%A1%9C%ED%95%84-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88%EC%9D%80-%EB%B0%B1%EC%95%85%EA%B8%B0-%EA%B8%B0%EA%B0%84-%EB%8F%99%EC%95%88-%EC%9C%A0%EB%9F%BD%EC%97%90%EC%84%9C-%EC%82%B4%EC%95%98%EB%8D%98-%EC%B4%88%EC%8B%9D-%EA%B3%B5%EB%A3%A1%EC%9D%B4%EC%97%88%EB%8B%A4-.jpg",
+                "https://previews.123rf.com/images/irwanjos/irwanjos1407/irwanjos140700042/30015808-%EA%B3%B5%EB%A3%A1-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88-%EB%A7%8C%ED%99%94.jpg",
+                "https://previews.123rf.com/images/lello4d/lello4d1305/lello4d130500194/19893679-%EC%9D%B4%EA%B5%AC%EC%95%84%EB%85%B8%EB%8F%88-%EA%B3%B5%EB%A3%A1%EC%9D%98-%EC%A0%84%EC%B2%B4-%EA%B3%A8%EA%B2%A9-%EC%82%AC%EC%8B%A4%EC%A0%81%EC%9D%B8-%EA%B3%BC%ED%95%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%AC%EB%B0%94%EB%A5%B8-%EC%B8%A1%EB%A9%B4%EB%B3%B4%EA%B8%B0-%EA%B7%B8%EB%A6%BC%EC%9E%90-%EB%B0%8F-%ED%81%B4%EB%A6%AC%ED%95%91-%ED%8C%A8%EC%8A%A4%EC%99%80-%ED%95%A8%EA%BB%98-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-.jpg"
+                ],
+                "eat": "",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 4,
+                "title_kr": "안킬로사우르스",
+                "title_en": "Ankylosaurus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_7831-b93a70cf063e102c6f1841ea7378ec00-1554009327736",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_9264-ab43ae2ccb29826966f8252d8a02e8e3-1554009325567",
+                "image": [
+                "http://cfile239.uf.daum.net/image/205CC23A504CA82E28D458",
+                "http://image.chosun.com/sitedata/image/201507/24/2015072402210_1.jpg",
+                "https://previews.123rf.com/images/jihane123/jihane1231503/jihane123150300196/37747777-%EC%95%88%ED%82%AC%EB%A1%9C-%EC%82%AC%EC%9A%B0%EB%A3%A8%EC%8A%A4-%EA%B3%B5%EB%A3%A1-%EB%A7%8C%ED%99%94.jpg"
+                ],
+                "eat": "",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 5,
+                "title_kr": "파라사우롤로푸스",
+                "title_en": "Parasaurolophus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_45767-c4669ea9f90a478045c806b1c15be550-1554040650973",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_28901-a732cca37822c6dbadbca2019713ce7a-1554040670053",
+                "image": [
+                "https://t1.daumcdn.net/cfile/tistory/13551A3750AEF66829",
+                "https://previews.123rf.com/images/dualororua/dualororua1602/dualororua160200174/56383049-%EA%B3%B5%EB%A3%A1-parasaurolophus-%EB%A7%8C%ED%99%94.jpg",          
+                "https://previews.123rf.com/images/jihane123/jihane1231503/jihane123150300191/37747776-%EA%B3%B5%EB%A3%A1-%ED%8C%8C%EB%9D%BC-%EC%82%AC%EC%9A%B0-%EB%A1%A4%EB%A1%9C-%ED%91%B8%EC%8A%A4-%EB%A7%8C%ED%99%94.jpg"
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 6,
+                "title_kr": "파키케팔로사우르스",
+                "title_en": "Pachycephalosaurus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_19528-72e47a54c7cb2759a0faf826f2df3731-1554040841467",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_51830-6287210436d79ae7d3a48e31275eba39-1554040902385",
+                "image": [
+                "http://pds2.egloos.com/pds/1/200607/10/13/a0007213_1822458.jpg",
+                "http://1.bp.blogspot.com/-AFFGIVddy0I/UIE1Kpbz6DI/AAAAAAAAMwo/tRqLtpGEj6g/s1600/fighting-dinos-zoom.jpg",
+                "https://pbs.twimg.com/media/DfAZV3YVAAEH5j0.jpg:large"
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 7,
+                "title_kr": "스테고사우르스",
+                "title_en": "Stegosaurus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_28115-8292ed7081663cb9fe4e2aac818890d2-1554041074582",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_35346-83025882bcd368b62025fdea56428a44-1554041063145",
+                "image": [
+                "http://cfile202.uf.daum.net/image/180E2C574D283F0F226CBF",
+                "https://png.pngtree.com/element_origin_min_pic/16/10/20/1158083c298440f.jpg",
+                "https://cdn.pixabay.com/photo/2012/04/30/11/08/back-44831_960_720.png",
+                "http://image.fnnews.com/resource/media/image/2014/12/09/201412091119025257_l.jpg"
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 8,
+                "title_kr": "브라키오사우르스",
+                "title_en": "Brachiosaurus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_55081-82f18f43f33ce6bf28487470f5ea4820-1554041272087",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_50089-1966efd524352440f195ffda20907085-1554041281983",
+                "image": [
+                "http://mblogthumb2.phinf.naver.net/MjAxODA3MjJfNDQg/MDAxNTMyMjQxNzE2ODI2.tShCn7xYLNGhUhzB3OxXoakYbgnXM_n8LggKUXUlOyMg.CsJL5aUZl6LzHuSGbueTiYjX73zihow0tFRGCpAlJ7Ug.PNG.dr_trex/jurassic_world__brachiosaurus_by_sonichedgehog2-dc55jvt.png?type=w800",
+                "http://pds15.egloos.com/pds/200905/31/84/e0010684_4a2205163746c.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/8/89/Brachiosaurus_BW.jpg",
+                "http://mblogthumb3.phinf.naver.net/20150210_206/awa0829_14235235051697gB5y_JPEG/%B4%D9%C0%CC%B3%CA%BC%D2%BE%EE.avi_010226.684.jpg?type=w2"          
+                
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 9,
+                "title_kr": "디플로도쿠스",
+                "title_en": "Diplodocus",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_23529-d5086dc1417d5357a9b79a6fb7227cd9-1554041430397",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_42318-5a985c97329b60c2f6176b0db650a054-1554041401663",
+                "image": [
+                "http://vodfile2.edupia.com/dle/2Images/data2/26446_1_2.jpg",
+                "http://jdpark.kr/wp-content/uploads/2014/10/%EB%94%94%ED%94%8C%EB%A1%9C%EB%8F%84%EC%BF%A0%EC%8A%A4.jpg",
+                "https://media.istockphoto.com/photos/diplodocus-dinosaur-silhouette-with-full-photorealistic-skeleton-picture-id173646492"
+                
+                
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 10,
+                "title_kr": "파타고티탄 마야룸",
+                "title_en": "patagotitan-mayorum",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_49231-a0629a14362561432bd863785c4e8687-1554041629385",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_42994-9e9802a3ae71bc47ceda1a564d1dc429-1554041641745",
+                "image": [
+                "https://t1.daumcdn.net/cfile/tistory/99CE21335A11CE5718",
+                "https://img1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/liveboard/ppss/f1b5ccfe7def46aabfb2c34da105f544.jpg",
+                "http://static.squarespace.com/static/51bf1cd3e4b0a897bf54112b/51bf573ae4b090c42fe6a2ff/51bf577ce4b0cad7682bee71/1390494101483/Futalognkosaurus.jpg",
+                "http://plug.hani.co.kr/files/attach/images/605454/416/025/003/titan2.png"          
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": ""
+            },
+            {
+                "id": 11,
+                "title_kr": "프테라노돈",
+                "title_en": "Pteranodon",
+                "name_mean": "",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_4753-1687486c53804f9f77fcf94c17a462bb-1554042106934",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_12056-a3024ed291e7e3300c9a40971b4c1109-1554042134830",
+                "image": [
+                "https://mblogthumb-phinf.pstatic.net/MjAxODA2MjlfMSAg/MDAxNTMwMjgxODgxMzE3.EAEpohkyQkBuofY0r0l-uxjiuip3T7QJrz4Y4jiqWXsg.1mm5f4b65xdNAmn7MXk41DGcOQWt3yU5ZMIl7fstT90g.JPEG.gameysk/12783-bd0a2c.jpg?type=w800",
+                "https://media.istockphoto.com/photos/rendering-prehistoric-flying-reptile-pteranodon-on-white-picture-id860877088?k=6&m=860877088&s=612x612&w=0&h=wBm7B4S2dwTZT8EPs7AS5N8fZ9KIsVOCD1K2kjXPn4k=",
+                "https://upload.wikimedia.org/wikipedia/commons/7/77/Pteranodon_amnh_martyniuk.jpg"
+                
+                ],
+                "eat": "초식",
+                "width": "",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": "파충류"
+            },
+            {
+                "id": 12,
+                "title_kr": "에오랍토르",
+                "title_en": "Eoraptor",
+                "name_mean": "새벽의 약탈자",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_48400-05e269aa3a42ef57234a3879e0f3d64e-1554627759448",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_26597-f5a9ebf4f73abbfc7128e692e2e4963c-1554627728183",
+                "image": [
+                    "http://vodfile2.edupia.com/dle/2Images/data2/31300_1_2.jpg",
+                    "https://w.namu.la/s/29657eafc757c143049fe4b7cb15c967d56e85f77147142744e78f8ef866b7760318f7be6dbdb66533ef206812105cd85670cc6baa3acc329d565d0801aa793289982d912ddbf5787371d42338cfed68c1ddda384f5f02f5840c4de38bf2b906"
+                ],
+                "eat": "",
+                "width": "1 미터",
+                "height": "10kg",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": "공룡"
+            },
+            {
+                "id": 13,
+                "title_kr": "콤프소그나투스",
+                "title_en": "Compsognathus",
+                "name_mean": "예쁜 턱",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_48753-1107575e7d1266e3eea00fd4d9e58001-1554628018901",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_4440-7c2a926e07865e76e94746f3464a89bc-1554627997414",
+                "image": [
+                    "http://cfs7.blog.daum.net/image/17/blog/2007/04/30/19/26/4635c46968a21",
+                    "https://w.namu.la/s/36eee6a649a1af07a3e12510d6431c4ab92d2dd023339f675bc8241a3a9384faabae16603e5a69656d5d9d6c20a19f78eec2d17635d43648bbd43b032164e6b6a3f547f48c8843c48186a494fb584101cb6b61569dc93e475f5fdbd8de555d5e"
+                ],
+                "eat": "",
+                "width": "1 미터",
+                "height": "",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": "공룡"
+            },
+            {
+                "id": 14,
+                "title_kr": "플라테오사우르스",
+                "title_en": "Plateosaurus",
+                "name_mean": "납작한 도마뱀",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_16842-3bbeb985dac447a39a7fc2d0d2644a1c-1554628351633",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_42865-234ce2a9d7618398c8000715b0c59c8a-1554628334206",
+                "image": [
+                    "https://w.namu.la/s/ec1452948367af59bb625c419987a69a5a9c43edd9f040be1aff1f7315e1991a9339a3d8f60c4ee4f1bb28b514e2afdd31cd3db5230dfbce2d3f503ea4a34a3a5e76152d87ff6361c2a8c452b6f855ba4ba1084c46a64ca3847ee4a9ce367045",
+                    "https://w.namu.la/s/1ce95cd1c62bb9ab48ecba7d3753c6a15cc9fdba56beb3183cb6a514ad901e9e0cd4b88769a2c0202c4d0f0f5fab1ddb3209bff7ee28a6b5e13d0c3a28beb1e30ce7749fcf8b4b8cf45ce477c446f3106864710d48fa1045eca614f57855c8cb"
+                ],
+                "eat": "육식",
+                "width": "10 미터",
+                "height": "4 톤",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": "공룡"
+            },
+            {
+                "id": 15,
+                "title_kr": "유디모르포돈",
+                "title_en": "Eudimorphodon",
+                "name_mean": "진짜 다른 이빨",
+                "sound_kr": "https://papago.naver.com/apis/tts/1.11.4_6905-ef2b3d14fd3fe2515bc581f01135653c-1554628709264",
+                "sound_en": "https://papago.naver.com/apis/tts/1.11.4_47204-e467b1f280f7b66509cfbfde70eb6b91-1554628685407",
+                "image": [
+                    "https://upload.wikimedia.org/wikipedia/commons/d/da/Eudimorphodon_BW.jpg",
+                    ""
+                ],
+                "eat": "",
+                "width": "1 미터",
+                "height": "4 톤",
+                "speed": "",
+                "weight": "",
+                "area": [],
+                "kind": "공룡"
+            }
+            ]
+        },
+        methods: {
+            fetchData: function() {
+                var _this = this;
+            axios.get('https://my-json-server.typicode.com/devPet2r/jsonServer/dinosaur')
+                .then(function(response) {
+                    _this.dinos = response.data;
+                })
+                .catch(function(error) {
+                console.log(error);
+                });
+            },
+            play: function( url ){
+                var audio = new Audio(url);
+                audio.play();
+            }
+        },
+        created() {
+            //this.fetchData();
+        },
+      })
+    </script>
+  </body>
+</html>
